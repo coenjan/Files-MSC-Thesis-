@@ -42,20 +42,11 @@ while true % Farm-level loop
             else
                 Yaw_angle_comm = [0, 0, 0];
             end
-%             if Time >= 1
-%                 Yaw_angle_comm = [0.52, 0.52, 0];
-%             end
+
             new=false;
 
         end
         %# < update turbine-level control here >
-
-%         Time = avrSWAP(iT,2);
-%         if Time > 80
-%            avrSWAP(iT,47) = 50000;
-%         else
-%            avrSWAP(iT,47) = 0;
-%         end
 
         %set generator torque
         KGen = 79.43986000000; % From ROSCO [Nm/((rad/s)^2)]
@@ -115,45 +106,4 @@ end
 % PlotFASToutput({T1out, T2out, T3out},{'Turbine 1', 'Turbine 2', 'Turbine 3'},[],{'GenPwr','YawBrTAxp'});
 % PlotFASToutput({T1out, T2out, T3out},{'Turbine 1', 'Turbine 2', 'Turbine 3'},[],{'GenPwr','GenTq','BldPitch1'});
 % PlotFASToutput({T1Gout, T2Gout, T3Gout},{'Turbine 1', 'Turbine 2', 'Turbine 3'});
-
-%% old code 
-% 
-% Time = avrSWAP(1,2);
-%         if Time > 80
-%             avrSWAP(1,47) = 50000;
-%             avrSWAP(2,47) = 50000;
-%             avrSWAP(3,47) = 50000;
-%         end
-% 
-%         %simple Yaw controller
-%         Yaw_angle = avrSWAP(1,37);
-%         Yaw_angle_com = 0.52;
-%         Yaw_error = Yaw_angle_com - Yaw_angle;
-%         Threshold = 0.0035;
-%         Time = avrSWAP(1,2);
-% 
-%         if Time > 300
-%             if Yaw_error > Threshold
-%                 YawRate = 0.005235;
-%             elseif Yaw_error < -Threshold
-%                 YawRate = -0.005235;
-%             else
-%                 YawRate = 0;
-%             end
-%             avrSWAP(1,48) = YawRate;
-%         end
-% 
-%         Time2 = avrSWAP(2,2);
-%         Yaw_angle2 = avrSWAP(2,37);
-%         Yaw_error2 = Yaw_angle_com - Yaw_angle2;
-% 
-%         if Time2 > 600
-%             if Yaw_error2 > Threshold
-%                 YawRate2 = 0.005235;
-%             elseif Yaw_error2 < -Threshold
-%                 YawRate2 = -0.005235;
-%             else
-%                 YawRate2 = 0;
-%             end
-%             avrSWAP(2,48) = YawRate2;
-%         end        
+  
