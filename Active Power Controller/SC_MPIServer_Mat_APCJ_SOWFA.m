@@ -52,21 +52,6 @@ powerSetpointFarmArray=powerSetpointFarmArray.*(nTurbs*0.5e6)+(nTurbs*3.5e6);
 %plot(timeSetpointArray,powerSetpointFarmArray./nTurbs);
 %%%%%%%%%%% added reference signal
 
-% Setup empty variable
-estimatedThrustArray = [];
-estimatedWindSpeedArray = [];
-powerSetpointTurbArray = [];
-powerAvailableTurbArray = [];
-powerSetpointTurbArrayLC=[];
-powerSetpointTurbArrayNC = [];
-powerSetpointTurbArrayNTC = [];
-up = [];
-ut = [];
-sumNonSatutArray = [];
-rotorSpeedReferenceArray=[];
-indtrackingThrustVarIntArray=[];
-varThrustArray=[];
-
 % Setup wind farm power controller
 applyFarmPowerControl = true;
 trackingErrorInt = 0;
@@ -331,27 +316,7 @@ while true % Farm-level loop
                     deltaPitch = pitchAngleArrayOut(ii) - bladePitchArray(ii);
                     deltaPitch = max(min(deltaPitch,pitchRateLimit),-pitchRateLimit);
                     pitchAngleArrayOut(ii) = bladePitchArray(ii) + deltaPitch;
-                end				            
-	        
-	        % Save variables
-	        %estimatedThrustArray=[estimatedThrustArray; estimatedThrust];
-            %varThrustArray=[varThrustArray; varThrust];
-	        %indtrackingThrustVarIntArray=[indtrackingThrustVarIntArray; indtrackingThrustVarInt];
-	        if iT == 1
-                rotorSpeedReferenceArray = [rotorSpeedReferenceArray; rotorSpeedReference(1)];
-            end
-            %estimatedWindSpeedArray = [estimatedWindSpeedArray; arrayfun(@(ii) WSE{ii}.windSpeed,1:nTurbs)];
-            %powerSetpointTurbArray  = [powerSetpointTurbArray; powerSetpointTurbCurrent];
-            %powerAvailableTurbArray  = [powerAvailableTurbArray; powerAvailableTurb];
-            %up = [up; powerSetpointVariationPowerControl];
-            %powerSetpointTurbArrayNC= [powerSetpointTurbArrayNC; powerSetpointTurbNC];
-            %ut = [ut; powerSetpointVariationThrustControl];
-            %powerSetpointTurbArrayNTC = [powerSetpointTurbArrayNTC; powerSetpointTurbNTC];
-            %sumNonSatutArray=[sumNonSatutArray;sumNonSatut];
-	        %powerSetpointTurbArrayLC=[powerSetpointTurbArrayLC; powerSetpointTurbLC];
-
-            
-        %end 
+                end		
 
             avrSWAP(ii,47) = torqueArrayOut(ii); %Generator torque in Nm
             avrSWAP(ii,45) = pitchAngleArrayOut(ii) / 180 * pi(); %Blade pitch angle in rad (original in deg)
@@ -390,34 +355,3 @@ end
 % PlotFASToutput({T1out, T2out, T3out},{'Turbine 1', 'Turbine 2', 'Turbine 3'},[],{'GenPwr','YawBrTAxp'});
 % PlotFASToutput({T1out, T2out, T3out},{'Turbine 1', 'Turbine 2', 'Turbine 3'},[],{'GenPwr','GenTq','BldPitch1'});
 % PlotFASToutput({T1out, T2out, T3out},{'Turbine 1', 'Turbine 2', 'Turbine 3'});
-
-%%
-%         %Inputs:
-%         BladePitchAngle1 = avrSWAP(1,4); %blade pitch angle of blade 1, turbine 1 (rad)
-%         BladePitchAngle2 = avrSWAP(2,4); %blade pitch angle of blade 1, turbine 2 (rad)
-%         BladePitchAngle3 = avrSWAP(3,4); %blade pitch angle of blade 1, turbine 3 (rad)
-%  
-%         RotorSpeed1 = avrSWAP(1,21); %rotor speed or turbine 1 (rad/s)
-%         RotorSpeed2 = avrSWAP(2,21); %rotor speed or turbine 2 (rad/s)
-%         RotorSpeed3 = avrSWAP(3,21); %rotor speed or turbine 3 (rad/s)
-%         
-%         GeneratorTorque1 = avrSWAP(1,23); %generator torque of turbine 1 (Nm)
-%         GeneratorTorque2 = avrSWAP(2,23); %generator torque of turbine 2 (Nm)
-%         GeneratorTorque3 = avrSWAP(3,23); %generator torque of turbine 3 (Nm)
-%         
-%         %Reference values for the controller
-%         Pref = 5000000; %in watt
-%         % test a power referecne of 3.5 MW
-% 
-%         %Controller:
-%         %build controller over here
-%         
-%  
-%         %Ouputs: (update collective blade pitch angels and generator torque)
-%         avrSWAP(1,47) = UpdateGT1; %updated generator torque turbine 1 (Nm)
-%         avrSWAP(2,47) = UpdateGT2; %updated generator torque turbine 2 (Nm)
-%         avrSWAP(3,47) = UpdateGT3; %updated generator torque turbine 3 (Nm)
-%  
-%         avrSWAP(1,45) = UpdatePA1; %updated collective pitch angles turbine 1 (rad)
-%         avrSWAP(2,45) = UpdatePA2; %updated collective pitch angles turbine 2 (rad)
-%         avrSWAP(3,45) = UpdatePA3; %updated collective pitch angles turbine 3 (rad)
